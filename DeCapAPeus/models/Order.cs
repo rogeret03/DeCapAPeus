@@ -4,6 +4,8 @@
                          Client client, string description, float price, State state,
                          bool delivered, bool notify, bool paid)
     {
+        public Order[] orders; //lista de pedidos para no llamar siempre a la bd
+
         private int id = id;
 
         private int box = box;
