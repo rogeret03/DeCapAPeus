@@ -28,59 +28,55 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btn_clients = new Button();
-            btn_orders = new Button();
-            label1 = new Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            button1 = new Button();
+            button2 = new Button();
             SuspendLayout();
             // 
-            // btn_clients
+            // button1
             // 
-            btn_clients.Location = new Point(297, 214);
-            btn_clients.Name = "btn_clients";
-            btn_clients.Size = new Size(75, 23);
-            btn_clients.TabIndex = 0;
-            btn_clients.Text = "Clients";
-            btn_clients.UseVisualStyleBackColor = true;
-            btn_clients.Click += btn_clients_Click;
+            button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.Location = new Point(688, 12);
+            button1.Name = "button1";
+            button1.Size = new Size(100, 40);
+            button1.TabIndex = 0;
+            button1.Text = "Comandes";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += btn_orders_Click;
             // 
-            // btn_orders
+            // button2
             // 
-            btn_orders.Location = new Point(490, 214);
-            btn_orders.Name = "btn_orders";
-            btn_orders.Size = new Size(75, 23);
-            btn_orders.TabIndex = 1;
-            btn_orders.Text = "Pedidos";
-            btn_orders.UseVisualStyleBackColor = true;
-            btn_orders.Click += btn_orders_Click;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(33, 33);
-            label1.Name = "label1";
-            label1.Size = new Size(38, 15);
-            label1.TabIndex = 2;
-            label1.Text = "label1";
+            button2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button2.Location = new Point(582, 12);
+            button2.Name = "button2";
+            button2.Size = new Size(100, 40);
+            button2.TabIndex = 1;
+            button2.Text = "Clients";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += btn_clients_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(223, 173, 0);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(800, 450);
-            Controls.Add(label1);
-            Controls.Add(btn_orders);
-            Controls.Add(btn_clients);
+            Controls.Add(button2);
+            Controls.Add(button1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
-            Text = "Form1";
+            Text = "De Cap A Peus";
             Load += Form1_Load;
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private Button btn_clients;
-        private Button btn_orders;
-        private Label label1;
+        private Button button1;
+        private Button button2;
     }
 }

@@ -17,7 +17,7 @@ namespace DeCapAPeus.controllers
             string pass = "";
 
             string connString = "Database=" + db + "; Data Source=" + server
-                + "; User Id=" + user + "; Password=" + pass;
+                + "; User Id=" + user + "; Password=" + pass + ";Convert Zero Datetime=True";
 
             MySqlConnection connectionDB;
 

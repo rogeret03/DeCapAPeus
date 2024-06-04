@@ -11,6 +11,9 @@ namespace DeCapAPeus
 {
     public partial class Form1 : Form
     {
+        private Clients_form clients_form;
+        private Orders_form orders_form;
+
         public Form1()
         {
             InitializeComponent();
@@ -18,23 +21,43 @@ namespace DeCapAPeus
 
         private void btn_clients_Click(object sender, EventArgs e)
         {
-            Clients_form clients_Form = new Clients_form();
-            clients_Form.Show();
-            Hide();
+            if (clients_form == null || clients_form.IsDisposed)
+            {
+                clients_form = new Clients_form();
+                clients_form.FormClosed += (s, args) => { clients_form = null; };
+                clients_form.Show();
+            }
+            else
+            {
+                if (clients_form.WindowState == FormWindowState.Minimized)
+                    clients_form.WindowState = FormWindowState.Normal;
+
+                clients_form.Focus();
+            }
         }
 
         private void btn_orders_Click(object sender, EventArgs e)
         {
-            Orders_form orders_Form = new Orders_form();
-            orders_Form.Show();
-            Hide();
+            if (orders_form == null || orders_form.IsDisposed)
+            {
+                orders_form = new Orders_form();
+                orders_form.FormClosed += (s, args) => { orders_form = null; };
+                orders_form.Show();
+            }
+            else
+            {
+                if (orders_form.WindowState == FormWindowState.Minimized)
+                    orders_form.WindowState = FormWindowState.Normal;
+
+                orders_form.Focus();
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string json_clients = Client.GetClientsAsJson();
-            List<Client> clients = Client.GetClientsFromJson(json_clients);
-            Client.clients = clients;
+            this.WindowState = FormWindowState.Maximized;
+            Client.clients = Client.GetClientsFromDB();
+            Order.orders = Order.GetOrdersFromDB();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DeCapAPeus.controllers;
+using DeCapAPeus.models;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,11 @@ namespace DeCapAPeus.views
         public Clients_form()
         {
             InitializeComponent();
+            this.TopMost = true;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            dgv_clients.RowHeadersVisible = false;
+            dgv_clients.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         private void Update_dgv()
@@ -35,33 +41,52 @@ namespace DeCapAPeus.views
 
         private void btn_create_client_Click(object sender, EventArgs e)
         {
-            String name = tb_name.Text;
-            String surnames = tb_surnames.Text;
-            String tlf = tb_tlf.Text;
-
-            String sql = "INSERT INTO clientes(nombre, apellidos, telefono) VALUES('" +
-                name + "', '" + surnames + "', " + tlf + ")";
-            MySqlConnection conn = DBC.connect();
-            conn.Open();
-
-            try
+            if (tb_name.Text == "" || tb_tlf.Text == "")
             {
-                MySqlCommand command = new MySqlCommand(sql, conn);
-                command.ExecuteNonQuery();
+                MessageBox.Show("Tots els camps tenen que estar emplenats.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            Client client = new Client();
+            client.nombre = tb_name.Text;
+            client.apellidos = tb_surnames.Text;
+            client.telefono = int.Parse(tb_tlf.Text);
+
+            bool response = Client.CreateClient(client);
+            if (response)
+            {
                 tb_name.Text = "";
                 tb_surnames.Text = "";
                 tb_tlf.Text = "";
-                MessageBox.Show("Client creat correctament!");
             }
-            catch (MySqlException ex)
+            Update_dgv();
+        }
+
+        private void search(object sender, EventArgs e)
+        {
+            string sql = $"SELECT * FROM clientes WHERE CONCAT(nombre, ' ', apellidos) LIKE '%{tb_search.Text}%' " +
+                $"OR telefono LIKE'%{tb_search.Text}%'";
+            MySqlDataAdapter adapter = new MySqlDataAdapter(sql, DBC.connect());
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            dgv_clients.DataSource = dt;
+        }
+
+        private void dgv_clients_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Client selected_client = new Client();
+            if (e.RowIndex >= 0)
             {
-                MessageBox.Show("Error al crear client: " + ex.Message);
+                DataGridViewRow row = dgv_clients.Rows[e.RowIndex];
+                selected_client = Client.GetClientByID((int)row.Cells[0].Value);
             }
-            finally
-            {
-                conn.Close();
-                Update_dgv();
-            }
+            Client_info client_Info = new Client_info(selected_client);
+            client_Info.Show();
+        }
+
+        private void pb_reload_Click(object sender, EventArgs e)
+        {
+            Update_dgv();
         }
     }
 }
